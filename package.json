@@ -10,6 +10,7 @@
     "postinstall": "weapp-tw patch"
   },
   "dependencies": {
+    "@climblee/uv-ui": "^1.1.20",
     "@dcloudio/uni-app": "3.0.0-alpha-4010520240507001",
     "@dcloudio/uni-app-plus": "3.0.0-alpha-4010520240507001",
     "@dcloudio/uni-components": "3.0.0-alpha-4010520240507001",
@@ -24,6 +25,9 @@
     "@dcloudio/uni-mp-weixin": "3.0.0-alpha-4010520240507001",
     "@dcloudio/uni-mp-xhs": "3.0.0-alpha-4010520240507001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-alpha-4010520240507001",
+    "accounting": "^0.4.1",
+    "moment": "^2.30.1",
+    "pinia": "^2.1.7",
     "vue": "^3.4.27",
     "vue-i18n": "^9.13.1"
   },

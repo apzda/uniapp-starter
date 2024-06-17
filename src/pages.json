@@ -1,9 +1,15 @@
 {
-  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^uv-(.*)": "@climblee/uv-ui/components/uv-$1/uv-$1.vue"
+    }
+  },
+  "pages": [
     {
       "path": "pages/index/index",
       "style": {
-        "navigationBarTitleText": "小冰冰破阵院",
+        "navigationBarTitleText": "攻略",
         "navigationStyle": "custom"
       }
     }
@@ -12,6 +18,8 @@
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "小冰冰破阵院",
     "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
+    "backgroundColor": "#417eb7",
+    "backgroundColorBottom": "#ffffff",
+    "backgroundColorTop": "#417eb7"
   }
 }

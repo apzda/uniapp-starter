@@ -1,10 +1,9 @@
-const { isMp } = require('./platform')
+import { isMp } from './platform'
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: ['./index.html', './src/**/*.{ts,vue}'],
   theme: {
-    extend: {},
+    extend: {}
   },
   plugins: [],
   corePlugins: {
