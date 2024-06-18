@@ -9,14 +9,14 @@
     {
       "path": "pages/index/index",
       "style": {
-        "navigationBarTitleText": "攻略",
+        "navigationBarTitleText": "首页",
         "navigationStyle": "custom"
       }
     }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "小冰冰破阵院",
+    "navigationBarTitleText": "小程序脚手架",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#417eb7",
     "backgroundColorBottom": "#ffffff",
