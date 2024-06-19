@@ -8,7 +8,6 @@ export interface Response {
 export interface RequestOptions {
   [key: string]: any
 
-  gtw?: string;
   url?: string;
   method?: 'GET' | 'POST';
   header?: { [key: string]: string };
@@ -17,12 +16,20 @@ export interface RequestOptions {
   dataType?: string;
   responseType?: string;
   withCredentials?: boolean;
+  showErrMsg?: false;
 }
 
 export interface CommonResponse<T = any> {
   errCode: number | string
   errMsg?: string
   data?: T
+}
+
+// 网络请求错误事件
+export interface ErrorEvent {
+  url?: string
+  data?: CommonResponse
+  suppress?: boolean
 }
 
 export type InternalRequestOptions = RequestOptions & {

@@ -1,14 +1,17 @@
+import type { ErrorEvent } from './request'
+
 // 网关选项
 export interface GtwOptions {
   [key: string]: any
 
-  base: string
+  baseURL: string
   timeout?: number
   withCredentials?: boolean
   responseType?: 'arraybuffer' | 'text'
   enableHttp2?: boolean
   enableQuic?: boolean
   enableChunked?: boolean
+  transformResponse?: ((data: any) => any) | ((data: any) => any)[]
   defer?: boolean
   header?: {
     [h: string]: string
@@ -43,6 +46,7 @@ export interface Settings {
     }
   }
 }
+
 
 // 网络请求错误处理器
 export interface Handlers {
