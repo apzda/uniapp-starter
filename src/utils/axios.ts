@@ -128,7 +128,7 @@ class RequestProxy implements IAxios {
       for (const cfg in gtwCfg) {
         options[cfg] = gtwCfg[cfg]
       }
-      options.timeout = 120000
+
       const url = this.apiBase + api
       options.url = url
       options.method = method
