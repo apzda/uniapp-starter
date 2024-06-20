@@ -1,14 +1,23 @@
 import { defineHandler } from '@/@types'
 import type { CommonResponse, RequestOptions } from '@/@types/request'
+import { useUserStore } from '@/stores/user'
 
 export default defineHandler({
   beforeRequest(options: RequestOptions): RequestOptions {
+    const { userInfo } = useUserStore()
     options.header = options.header || {}
 
-    // options.header.uuid = uuid_v4()
+    options.header.uuid = userInfo.uuid || ''
 
     if (!options.header['accept'] || !options.header['Accept']) {
       options.header['Accept'] = 'application/json'
+    }
+
+    if (options.method?.toLowerCase() == 'get') {
+      options.data = {
+        _t: new Date().getTime(),
+        ...options.data
+      }
     }
 
     return options

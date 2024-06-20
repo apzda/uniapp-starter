@@ -1,0 +1,27 @@
+{
+  "network": {
+    "400": "Bad Request",
+    "401": "Unauthorized",
+    "403": "Access Denied",
+    "404": "Not Found",
+    "405": "Method Not Allowed",
+    "406": "Not Acceptable",
+    "429": "Too Many Requests",
+    "500": "Internal Server Error",
+    "501": "Not Implemented",
+    "502": "Bad Gateway",
+    "503": "Service Unavailable",
+    "504": "Gateway Timeout",
+    "error": "{1}",
+    "title": "Network Error"
+  },
+  "user": {
+    "switch_api_not_set": "未配置切换账户接口",
+    "mfa_api_not_set": "未配置多重认证配置接口"
+  },
+  "alert": {
+    "success": "Success",
+    "error": "Oops!"
+  },
+  "hello": "Hello"
+}

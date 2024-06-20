@@ -31,3 +31,17 @@ export function deepClone(source: any, hash = new WeakMap()) {
   hash.set(source, target)
   return target
 }
+
+export const persist = {
+  storage: {
+    getItem(key: string) {
+      return uni.getStorageSync(key)
+    },
+    setItem(key: string, data: any) {
+      uni.setStorage({
+        key, data, success() {
+        }
+      })
+    }
+  }
+}

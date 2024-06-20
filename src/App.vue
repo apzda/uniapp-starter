@@ -23,11 +23,11 @@ onLaunch(() => {
 })
 
 onShow(() => {
-  console.log('App Show')
+  console.debug('App Show')
 })
 
 onHide(() => {
-  console.log('App Hide')
+  console.debug('App Hide')
 })
 </script>
 

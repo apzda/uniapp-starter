@@ -9,13 +9,19 @@
     <view class="w2 mt-16 border-solid border-blue-600">2</view>
     <view class="w3 mt-14 border-solid border-purple-500">3</view>
 
-    <button class="w4 mt-16 border-solid border-purple-500" @click="onLogin">登录</button>
+    <button v-if="isSuperAdmin()" class="w4 mt-16 border-solid border-purple-500" @click="onLogin">
+      登录-{{ userInfo.uuid }}
+    </button>
   </view>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { onHide, onLoad, onShow } from '@dcloudio/uni-app'
+import { useUserStore } from '@/stores/user'
+
+const { userInfo, isSuperAdmin } = useUserStore()
+
 // 组件属性
 // 组件事件
 // 组件接口
@@ -28,6 +34,8 @@ const onLogin = () => {
   uni.login({
     success(result) {
       console.log(result)
+      userInfo.accessToken = result.code
+      userInfo.uid = result.code
     }
   })
 }

@@ -13,13 +13,18 @@ export default defineConfig({
       rem2rpx: true, disabled: WeappTailwindcssDisabled, injectAdditionalCssVarScope: true
     }),
     AutoImport({
-      imports: ['vue', 'uni-app', 'pinia'],
+      imports: ['vue', 'uni-app', 'pinia', 'vue-i18n'],
       dts: './src/auto-imports.d.ts',
       eslintrc: {
         enabled: true
       }
     })
   ],
+  resolve: {
+    alias: {
+      '@': './src'
+    }
+  },
   css: {
     postcss: {
       plugins: postcssPlugins

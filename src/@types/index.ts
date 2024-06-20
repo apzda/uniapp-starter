@@ -1,3 +1,4 @@
+import type { InjectionKey, Ref } from 'vue'
 import type { CommonResponse, ErrorEvent, RequestOptions } from './request'
 
 // 网关选项
@@ -64,7 +65,6 @@ export interface Handlers {
   beforeRequest(options: RequestOptions): RequestOptions
 }
 
-//
 export const defineSetting = (settings: Settings): Settings => {
   settings.whiteList = settings.whiteList || []
 
@@ -78,3 +78,5 @@ export const defineSetting = (settings: Settings): Settings => {
 }
 
 export const defineHandler = (handlers: Handlers): Handlers => handlers
+
+export const LANGUAGE_LOAD_KEY = Symbol() as InjectionKey<Ref<boolean>>
