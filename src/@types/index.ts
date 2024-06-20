@@ -1,4 +1,4 @@
-import type { ErrorEvent } from './request'
+import type { CommonResponse, ErrorEvent, RequestOptions } from './request'
 
 // 网关选项
 export interface GtwOptions {
@@ -48,15 +48,22 @@ export interface Settings {
 }
 
 
+export type ErrHandlerName = `on${string}`
+
 // 网络请求错误处理器
 export interface Handlers {
-  [event: string]: (event: ErrorEvent) => boolean | void
+  [event: ErrHandlerName]: (event: ErrorEvent) => boolean | void
 
-  onLogin: (event: ErrorEvent) => void
-  onResetPassword: (event: ErrorEvent) => void
-  onRequestTooFast: (event: ErrorEvent) => void
+  transformResponse?: ((data: any) => CommonResponse)
+
+  encrypt(data: any): string
+
+  decrypt(data: string): CommonResponse
+
+  showTipMessage(success: boolean, type: string, message: string): void
+
+  beforeRequest(options: RequestOptions): RequestOptions
 }
-
 
 export const defineSetting = (settings: Settings): Settings => {
   settings.whiteList = settings.whiteList || []
@@ -72,3 +79,4 @@ export const defineSetting = (settings: Settings): Settings => {
 
 export const defineHandler = (handlers: Handlers): Handlers => handlers
 
+export { CommonResponse }

@@ -22,14 +22,18 @@ export interface RequestOptions {
 export interface CommonResponse<T = any> {
   errCode: number | string
   errMsg?: string
+  message?: string
+  type?: 'TOAST' | 'NOTIFY' | 'ALERT' | 'NONE' | string
   data?: T
 }
 
 // 网络请求错误事件
-export interface ErrorEvent {
-  url?: string
-  data?: CommonResponse
+export interface ErrorEvent extends CommonResponse {
   suppress?: boolean
+  options: InternalRequestOptions
+  axios: IAxios
+  resolve: ((data: CommonResponse) => any)
+  reject: ((err: ErrorEvent) => any)
 }
 
 export type InternalRequestOptions = RequestOptions & {
@@ -42,3 +46,8 @@ export type SuccessHandler<T> = (data: (CommonResponse<T> | PromiseLike<CommonRe
 
 export type RejectHandler = (error: CommonResponse) => void
 
+export interface IAxios {
+  post: <T = any>(api: string, options?: RequestOptions) => Promise<CommonResponse<T>>
+  get: <T = any>(api: string, options?: RequestOptions) => Promise<CommonResponse<T>>
+  encrypted: <T = any>(api: string, options?: RequestOptions) => Promise<CommonResponse<T>>
+}

@@ -1,6 +1,7 @@
 import type {
   CommonResponse,
   ErrorEvent,
+  IAxios,
   InternalRequestOptions,
   RejectHandler,
   RequestOptions,
@@ -8,24 +9,22 @@ import type {
   SuccessHandler
 } from '@/@types/request'
 
-import type { GtwOptions } from '@/@types'
+import type { ErrHandlerName, GtwOptions } from '@/@types'
 import setting from '@/config'
-import handler from '@/config/handler'
-import { isObject } from '@/utils'
+import handler from '@/config/handlers'
+import { deepClone, isObject } from '@/utils'
 
-// 是否正在刷新
-let refreshing: boolean = false
-
+// 网关配置列表
 const gateways = (setting.gtw || {}) as { [k: string]: GtwOptions }
+console.log('gateways: ', gateways)
+// 默认错误处理器
 const emptyHandler = (event: ErrorEvent) => {
+  event.suppress = true
+  showMessage(event, event.options, false)
 }
 
-export function useAxios(gtw: string = 'default'): RequestProxy {
-  const gtwCfg = (gateways[gtw || 'default'] || { baseURL: '/' }) as GtwOptions
-  return new RequestProxy(gtwCfg)
-}
-
-class RequestProxy {
+// 请求代理类
+class RequestProxy implements IAxios {
   private readonly options: RequestOptions
   private readonly debounceMap: Set<string>
   private readonly apiBase: string
@@ -39,66 +38,70 @@ class RequestProxy {
   }
 
   // POST 请求
-  post<T = any>(api: string, options?: RequestOptions) {
+  post<T = any>(api: string, options?: RequestOptions): Promise<CommonResponse<T>> {
     options = options || {}
     options.dataType = 'json'
+    options.header = options.header || {}
+    options.header['Content-Type'] = 'application/json'
+    options.header['Accept'] = 'application/json'
+
     return this.request<T>(api, 'POST', options)
   }
 
   // GET 请求
-  get<T = any>(api: string, options?: RequestOptions) {
+  get<T = any>(api: string, options?: RequestOptions): Promise<CommonResponse<T>> {
     return this.request<T>(api, 'GET', options)
   }
 
   // 加密请求
-  encrypted<T = any>(api: string, options?: RequestOptions) {
+  encrypted<T = any>(api: string, options?: RequestOptions): Promise<CommonResponse<T>> {
     options = options || {}
     options.header = options.header || {}
     options.header['content-type'] = 'application/encrypted+json'
     options.header['accept'] = 'application/encrypted+json'
     options.dataType = 'text'
+
     if (typeof options.data != 'undefined') {
-      options.data = encrypt(options.data)
+      options.data = handler.encrypt(options.data)
+    } else {
+      options.data = handler.encrypt({})
     }
 
     return this.request<T>(api, 'POST', options)
   }
 
   // 发起查询
-  request<T>(api: string, method: 'GET' | 'POST', options: RequestOptions = {}) {
-    return new Promise<T>((resolve, reject) => {
-      this.doRequest<T>(api, method, options).then(response => {
-        //@ts-ignore
-        if (options.showErrMsg !== false && (response.errMsg || response.message)) {
-          //@ts-ignore
-          const errMsg = response.errorMsg || response.message || ''
-          if (errMsg) {
-            console.info('正常的响应提示:', errMsg)
-          }
-        }
+  request<T = any>(api: string, method: 'GET' | 'POST', options: RequestOptions = {}): Promise<CommonResponse<T>> {
+    const that = this
+    return new Promise<CommonResponse<T>>((resolve, reject) => {
+      this.doRequest<CommonResponse<T>>(api, method, options).then(response => {
+        showMessage(response, options, true)
         resolve(response)
       }).catch(err => {
-        //TODO 显示错误提示吧，刷新AccessToken吧
-        if (err.errCode == -810) {
-          console.error('刷新AccessToken')
-        } else {
-          const errCode = 'onErr' + Math.abs(err.errCode)
-          const errHandler = handler[errCode] || emptyHandler
-          const handled = errHandler(err)
-          if (options.showErrMsg !== false && (err.errMsg || err.message)) {
-            const errMsg = err.errorMsg || err.message || ''
-            if (errMsg) {
-              console.error('错误的响应提示:', errMsg)
-            }
-          }
-
+        {
+          // redo config ==>
+          err.axios = that
+          err.options = options
+          err.resolve = resolve
+          err.reject = reject
+          delete err.options.success
+          delete err.options.fail
+        }
+        console.debug('request.failure: ', err)
+        const errCode = ('onErr' + Math.abs(err.errCode)) as ErrHandlerName
+        const errHandler = handler[errCode] || emptyHandler
+        const handled = errHandler(err)
+        if (err.suppress !== true) {
+          showMessage(err, options, false)
+        }
+        if (handled !== true) {
           reject(err)
         }
       })
     })
   }
 
-  private doRequest<T>(api: string, method: 'GET' | 'POST', options?: RequestOptions) {
+  private doRequest<T>(api: string, method: 'GET' | 'POST', options?: RequestOptions): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       if (!api || !api.trim()) {
         reject({
@@ -128,15 +131,16 @@ class RequestProxy {
 
         this.debounceMap.add(url)
       }
-      const that = this
+
+      options = handler.beforeRequest(options)
       //@ts-ignore
       const config = getDefaultOptions(resolve, reject, options)
+      const that = this
       //@ts-ignore
       uni.request({
         ...config,
         complete() {
           that.debounceMap.delete(url)
-          console.debug('delete url from debounceMap:', url)
         }
       })
     })
@@ -152,7 +156,6 @@ function getDefaultOptions<T>(resolve: SuccessHandler<T>, reject: RejectHandler,
     responseHandler<T>(res, resolve, reject)
   }
   config.fail = (err: CommonResponse) => {
-    console.error('请求出错: ', err)
     err.errCode = 500
     responseErrorHandler(err, reject)
   }
@@ -167,7 +170,7 @@ function responseHandler<T>(res: Response, resolve: SuccessHandler<T>, reject: R
   if (contentType.startsWith('application/encrypted+json')) {
     try {
       // 解密
-      res.data = decrypt(res.data)
+      res.data = handler.decrypt(res.data)
     } catch (e) {
       reject({ errCode: 1000, errMsg: 'Cannot decrypt data:' + e })
       return
@@ -175,6 +178,9 @@ function responseHandler<T>(res: Response, resolve: SuccessHandler<T>, reject: R
   }
 
   if (res.statusCode == 200) {
+    if (handler.transformResponse) {
+      res.data = handler.transformResponse(res.data)
+    }
     if (!isObject(res.data)) {
       // 响应格式错误
       reject({
@@ -191,7 +197,10 @@ function responseHandler<T>(res: Response, resolve: SuccessHandler<T>, reject: R
       reject(res.data)
     }
   } else {// 其它类型错误
-    if (isObject(res.data) && typeof res.data.errCode != 'undefined') {
+    if (handler.transformResponse) {
+      res.data = handler.transformResponse(res.data)
+    }
+    if (isObject(res.data) && res.data.errCode != undefined) {
       // 其它错误响应
       reject(res.data)
     } else {
@@ -209,18 +218,23 @@ function responseHandler<T>(res: Response, resolve: SuccessHandler<T>, reject: R
 function responseErrorHandler(err: CommonResponse, reject: RejectHandler) {
   if (err.errMsg?.endsWith('timeout')) {
     err.errCode = 504
-  } else {
-    // err.errCode = 400
   }
   reject(err)
 }
 
-// 解密
-function decrypt(data: string) {
-  return {}
+// 提示
+function showMessage(response: any, options: RequestOptions, success: boolean) {
+  if (options.showErrMsg !== false && (response.errMsg || response.message)) {
+    const errMsg = response.errMsg || response.message || ''
+    const msgType = ((response.type || 'toast') as string).toLowerCase()
+    if (msgType != 'none' && errMsg) {
+      handler.showTipMessage(success, msgType, errMsg)
+    }
+  }
 }
 
-// 加密
-function encrypt(data: any): string {
-  return 'a'
+// 入口
+export function useAxios(gtw: string = 'default'): RequestProxy {
+  const gtwCfg = (gateways[gtw || 'default'] || { baseURL: '/' }) as GtwOptions
+  return new RequestProxy(deepClone(gtwCfg))
 }

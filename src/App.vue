@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onHide, onLaunch, onShow } from '@dcloudio/uni-app'
-import type { CommonResponse } from '@/@types/request'
 import { useAxios } from '@/utils/axios'
 
 const axios = useAxios('default')
@@ -10,10 +9,14 @@ onLaunch(() => {
   console.log('Api Base URL: ' + import.meta.env.VITE_API_URL)
   console.log('ENC Padding: ' + import.meta.env.VITE_ENC_PADDING)
 
-  axios.post<CommonResponse<number>>('abc', {}).then((res) => {
-    console.log(res)
+  axios.get('captcha/create', {
+    data: {
+      width: 120
+    }
+  }).then(({ data }) => {
+    console.log(data)
   }).catch((err) => {
-    console.error(err)
+    console.error('应用侧捕获到错误: ', err)
   }).finally(() => {
     console.log('App Launched successfully.')
   })
