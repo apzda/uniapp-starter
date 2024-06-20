@@ -47,7 +47,6 @@ export interface Settings {
   }
 }
 
-
 export type ErrHandlerName = `on${string}`
 
 // 网络请求错误处理器
@@ -65,6 +64,7 @@ export interface Handlers {
   beforeRequest(options: RequestOptions): RequestOptions
 }
 
+//
 export const defineSetting = (settings: Settings): Settings => {
   settings.whiteList = settings.whiteList || []
 
@@ -78,5 +78,3 @@ export const defineSetting = (settings: Settings): Settings => {
 }
 
 export const defineHandler = (handlers: Handlers): Handlers => handlers
-
-export { CommonResponse }

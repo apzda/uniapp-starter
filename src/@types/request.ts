@@ -50,4 +50,6 @@ export interface IAxios {
   post: <T = any>(api: string, options?: RequestOptions) => Promise<CommonResponse<T>>
   get: <T = any>(api: string, options?: RequestOptions) => Promise<CommonResponse<T>>
   encrypted: <T = any>(api: string, options?: RequestOptions) => Promise<CommonResponse<T>>
+
+  request<T = any>(api: string, method: 'GET' | 'POST', options?: RequestOptions): Promise<CommonResponse<T>>
 }

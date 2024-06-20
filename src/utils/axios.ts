@@ -16,7 +16,7 @@ import { deepClone, isObject } from '@/utils'
 
 // 网关配置列表
 const gateways = (setting.gtw || {}) as { [k: string]: GtwOptions }
-console.log('gateways: ', gateways)
+
 // 默认错误处理器
 const emptyHandler = (event: ErrorEvent) => {
   event.suppress = true
@@ -41,10 +41,6 @@ class RequestProxy implements IAxios {
   post<T = any>(api: string, options?: RequestOptions): Promise<CommonResponse<T>> {
     options = options || {}
     options.dataType = 'json'
-    options.header = options.header || {}
-    options.header['Content-Type'] = 'application/json'
-    options.header['Accept'] = 'application/json'
-
     return this.request<T>(api, 'POST', options)
   }
 
@@ -57,6 +53,10 @@ class RequestProxy implements IAxios {
   encrypted<T = any>(api: string, options?: RequestOptions): Promise<CommonResponse<T>> {
     options = options || {}
     options.header = options.header || {}
+
+    delete options.header['Content-Type']
+    delete options.header['Accept']
+
     options.header['content-type'] = 'application/encrypted+json'
     options.header['accept'] = 'application/encrypted+json'
     options.dataType = 'text'
@@ -73,6 +73,19 @@ class RequestProxy implements IAxios {
   // 发起查询
   request<T = any>(api: string, method: 'GET' | 'POST', options: RequestOptions = {}): Promise<CommonResponse<T>> {
     const that = this
+    options = options || {} as RequestOptions
+    options.header = options.header || {}
+
+    if (!options.header['Content-Type'] || !options.header['content-type']) {
+      if (options.data) {
+        options.header['Content-Type'] = 'application/json'
+      }
+    }
+
+    if (!options.header['accept'] || !options.header['Accept']) {
+      options.header['Accept'] = 'application/json'
+    }
+
     return new Promise<CommonResponse<T>>((resolve, reject) => {
       this.doRequest<CommonResponse<T>>(api, method, options).then(response => {
         showMessage(response, options, true)
