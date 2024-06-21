@@ -1,0 +1,6 @@
+{
+  "alert": {
+    "fail": "Failure!",
+    "done": "Done!"
+  }
+}

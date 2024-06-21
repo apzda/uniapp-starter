@@ -1,17 +1,24 @@
-import { createSSRApp, readonly, ref } from 'vue'
+import { createSSRApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
-import { setupI18n } from '@/utils/i18n'
-import { LANGUAGE_LOAD_KEY } from '@/@types'
-import { useAppStore } from '@/stores'
+import { getLanguage, getLocale, setupI18n } from '@/utils/i18n'
 import '@/uni.scss'
 import '@/styles/index.scss'
 import App from '@/App.vue'
 
-
+// setup pinia
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
+
+// setup language messages
+const messages : Record<string, any> = {}
+const languages = import.meta.glob('./lang/*.ts', { import: 'default', eager: true })
+for (const path in languages) {
+  const lang = getLocale(path)
+  // console.debug(lang, ' => ', languages[path])
+  messages[lang] = languages[path]
+}
 
 export function createApp() {
   const app = createSSRApp(App)
@@ -24,19 +31,18 @@ export function createApp() {
     app.use(plugins[path])
   }
 
-  const appInfo = useAppStore()
+  // setup i18n
   const i18n = setupI18n({
     legacy: false,
-    locale: appInfo.app.language,
+    locale: getLanguage(),
+    messages: messages,
     fallbackLocale: 'en',
     silentTranslationWarn: true,
-    silentFallbackWarn: true
+    silentFallbackWarn: true,
+    missingWarn:false
   })
-
   app.use(i18n)
-
-  const languageLoaded = ref(false)
-  app.provide(LANGUAGE_LOAD_KEY, readonly(languageLoaded))
+  // console.debug('i18n hello => ', i18n.global.t('hello'))
 
   return {
     app

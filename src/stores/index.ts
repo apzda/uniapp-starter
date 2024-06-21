@@ -3,15 +3,19 @@ import { defineStore } from 'pinia'
 
 import { persist } from '@/utils'
 
-export const useAppStore = defineStore('app', () => {
-  const app = ref({
-    language: 'en'
-  })
+export const useAppStore = defineStore(
+  'app',
+  () => {
+    const app = ref({
+      language: 'en',
+      theme: 'auto'
+    })
 
-  return {
-    app
+    return {
+      app
+    }
+  },
+  {
+    persist
   }
-}, {
-  persist
-})
-
+)

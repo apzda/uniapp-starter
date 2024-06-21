@@ -18,7 +18,7 @@ export function deepClone(source: any, hash = new WeakMap()) {
     return hash.get(source)
   }
   const target = Array.isArray(source) ? [] : {}
-  Reflect.ownKeys(source).forEach(key => {
+  Reflect.ownKeys(source).forEach((key) => {
     const val = source[key]
     if (typeof val === 'object' && val !== null) {
       //@ts-ignore
@@ -39,8 +39,9 @@ export const persist = {
     },
     setItem(key: string, data: any) {
       uni.setStorage({
-        key, data, success() {
-        }
+        key,
+        data,
+        success() {}
       })
     }
   }
