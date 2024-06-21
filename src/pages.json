@@ -15,9 +15,9 @@
     }
   ],
   "globalStyle": {
-    "navigationBarTextStyle": "black",
+    "navigationBarTextStyle": "@navTxtStyle",
     "navigationBarTitleText": "小程序脚手架",
-    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarBackgroundColor": "@navBgColor",
     "backgroundColor": "#417eb7",
     "backgroundColorBottom": "#ffffff",
     "backgroundColorTop": "#417eb7"
