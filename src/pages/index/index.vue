@@ -1,15 +1,15 @@
 <template>
-  <view class="content bg-gradient-to-b from-blue-500 to-95%">
+  <view class="content dark:from-red-500 from-blue-500 to-95% bg-gradient-to-b">
     <image class="logo" :src="'/static/logo.png'" />
     <view class="text-area">
       <text class="title text-red-300">{{ ts(title,'Hello') }}</text>
     </view>
     <view class="w1 border-solid border-red-500">1</view>
-    <view class="wf mt-[50px] border-solid border-cyan-600">1-1</view>
+    <view class="wf mt-[50px] border-solid border-cyan-600 text-center">Theme: {{ app.theme }}</view>
     <view class="w2 mt-16 border-solid border-blue-600">{{ ts('alert.done', 'Done') }}</view>
     <view class="w3 mt-14 border-solid border-purple-500">{{ ts('alert.success', 'Success') }}</view>
 
-    <button class="w4 mt-16 border-solid border-purple-500" @click="onLogin">登录</button>
+    <button class="w4 mt-16 border-solid border-purple-500 dark:border-cyan-500" @click="onLogin">登录</button>
   </view>
 </template>
 
@@ -17,11 +17,11 @@
   import { onMounted, ref } from 'vue'
   import { onHide, onLoad, onShow } from '@dcloudio/uni-app'
   import { useUserStore } from '@/stores/user'
-
-  import { t, ts, setLanguage, getLanguage } from '@/utils/i18n'
-
+  import { useAppStore } from '@/stores'
+  import { ts, setLanguage, getLanguage } from '@/utils/i18n'
+  // 状态管理
   const { userInfo } = useUserStore()
-
+  const { app } = useAppStore()
   // 组件属性
   // 组件事件
   // 组件接口

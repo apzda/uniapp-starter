@@ -5,15 +5,13 @@
       "^uv-(.*)": "@climblee/uv-ui/components/uv-$1/uv-$1.vue"
     }
   },
-  "pages": [
-    {
-      "path": "pages/index/index",
-      "style": {
-        "navigationBarTitleText": "首页",
-        "navigationStyle": "custom"
-      }
+  "pages": [{
+    "path": "pages/index/index",
+    "style": {
+      "navigationBarTitleText": "首页"
+      // "navigationStyle": "custom"
     }
-  ],
+  }],
   "globalStyle": {
     "navigationBarTextStyle": "@navTxtStyle",
     "navigationBarTitleText": "小程序脚手架",
