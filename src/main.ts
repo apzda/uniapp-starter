@@ -1,6 +1,7 @@
 import { createSSRApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import uvUI from '@climblee/uv-ui'
 
 import { getLanguage, getLocale, setupI18n } from '@/utils/i18n'
 import '@/uni.scss'
@@ -23,6 +24,7 @@ for (const path in languages) {
 export function createApp() {
   const app = createSSRApp(App)
   app.use(pinia)
+  app.use(uvUI)
 
   // install plugins
   const plugins = import.meta.glob('./**/plugins/*.ts', { import: 'default', eager: true })

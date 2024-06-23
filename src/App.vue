@@ -31,7 +31,8 @@ onHide(() => {
 })
 </script>
 
-<style>
+<style lang="scss">
+@import '@climblee/uv-ui/index.scss';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

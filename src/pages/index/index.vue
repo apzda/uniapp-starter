@@ -9,13 +9,16 @@
     <view class="w2 mt-16 border-solid border-blue-600">{{ ts('alert.done', 'Done') }}</view>
     <view class="w3 mt-14 border-solid border-purple-500">{{ ts('alert.success', 'Success') }}</view>
 
-    <button class="w4 mt-16 border-solid border-purple-500 dark:border-cyan-500" @click="onLogin">登录</button>
+    <button class="w4 mt-16 border-solid border-purple-500 dark:border-cyan-500" @click="onLogin">
+      <uv-icon name="photo" size="30" color="#909399"></uv-icon> 登录
+    </button>
   </view>
 </template>
 
 <script setup lang="ts">
   import { onMounted, ref } from 'vue'
   import { onHide, onLoad, onShow } from '@dcloudio/uni-app'
+
   import { useUserStore } from '@/stores/user'
   import { useAppStore } from '@/stores'
   import { ts, setLanguage, getLanguage } from '@/utils/i18n'

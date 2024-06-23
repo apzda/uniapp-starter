@@ -7,6 +7,8 @@ declare module '*.vue' {
   export default component
 }
 
+declare module '@climblee/uv-ui';
+
 declare module 'postcss-pxtransform';
 
 interface ImportMetaEnv {

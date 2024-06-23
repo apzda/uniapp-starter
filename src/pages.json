@@ -16,8 +16,8 @@
     "navigationBarTextStyle": "@navTxtStyle",
     "navigationBarTitleText": "小程序脚手架",
     "navigationBarBackgroundColor": "@navBgColor",
-    "backgroundColor": "#417eb7",
-    "backgroundColorBottom": "#ffffff",
-    "backgroundColorTop": "#417eb7"
+    "backgroundColor": "@backgroundColor",
+    "backgroundColorBottom": "@backgroundColorBottom",
+    "backgroundColorTop": "@backgroundColorTop"
   }
 }
