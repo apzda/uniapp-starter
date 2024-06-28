@@ -11,7 +11,7 @@ export function decrypt(text: string): string {
   return alg.decrypt(text, key, opts).toString(CryptoJS.enc.Utf8)
 }
 
-export function decryptObj<T>(text: string): T | null {
+export function decryptObj<T = any>(text: string): T | null {
   const decrypted = decrypt(text)
   if (decrypted) {
     return JSON.parse(decrypted) as T
@@ -23,6 +23,6 @@ export function encrypt(text: string): string {
   return alg.encrypt(text, key, opts).toString()
 }
 
-export function encryptObj(obj: Record<string, any>): string {
+export function encryptObj(obj: any): string {
   return encrypt(JSON.stringify(obj))
 }
