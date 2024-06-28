@@ -27,7 +27,7 @@
     "@dcloudio/uni-mp-xhs": "3.0.0-alpha-4010520240507001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-alpha-4010520240507001",
     "accounting": "^0.4.1",
-    "crypto-js": "^4.2.0",
+    "crypto-js": "3.3.0",
     "deepmerge": "^4.3.1",
     "lodash-es": "^4.17.21",
     "moment": "^2.30.1",

@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { onHide, onLoad, onShow } from '@dcloudio/uni-app'
-import { AES } from 'crypto-js'
+import CryptoJS from 'crypto-js'
 import { useUserStore } from '@/stores/user'
 import { useAppStore } from '@/stores'
 import { getLanguage, setLanguage, ts } from '@/utils/i18n'
@@ -49,9 +49,16 @@ const onLogin = () => {
   } else {
     setLanguage('zh-CN')
   }
-  // const encoded = AES.encrypt('hello', import.meta.env.VITE_ENC_KEY)
-  // console.log('encrypted', encoded)
-  // console.log('decrypted', AES.decrypt(encoded, import.meta.env.VITE_ENC_KEY))
+
+  const opts = {
+    iv: CryptoJS.enc.Utf8.parse(import.meta.env.VITE_ENC_IV)
+  }
+
+  const AES = CryptoJS.AES
+
+  const encoded = AES.encrypt('hello', import.meta.env.VITE_ENC_KEY, opts)
+  console.log('encrypted', encoded.toString())
+  console.log('decrypted', AES.decrypt(encoded.toString(), import.meta.env.VITE_ENC_KEY, opts).toString(CryptoJS.enc.Utf8))
 }
 // 生命周期
 onLoad(() => {

@@ -15,8 +15,7 @@ interface ImportMetaEnv {
   readonly VITE_API_URL: string;
   readonly VITE_ENC_KEY: string;
   readonly VITE_ENC_IV: string;
-  readonly VITE_ENC_MODE: 'CBC'
-  readonly VITE_ENC_PADDING: 'PKCS7Padding' | 'PKCS5Padding'
+  readonly VITE_ENC_ALG: 'aes' | 'des' | 'sm4'
   readonly NODE_ENV: string;
 }
 
