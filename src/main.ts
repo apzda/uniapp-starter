@@ -3,6 +3,7 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import uvUI from '@climblee/uv-ui'
 
+import router from './router'
 import { getLanguage, getLocale, setupI18n } from '@/utils/i18n'
 import '@/uni.scss'
 import '@/styles/index.scss'
@@ -24,6 +25,7 @@ for (const path in languages) {
 export function createApp() {
   const app = createSSRApp(App)
   app.use(pinia)
+  app.use(router)
   app.use(uvUI)
 
   // install plugins

@@ -5,11 +5,12 @@
       <text class="title text-red-300">{{ ts(title, 'Hello') }}</text>
     </view>
     <view class="w1 border-solid border-red-500">1</view>
-    <view class="wf mt-[50px] border-solid border-cyan-600 text-center">Theme: {{ app.theme }}</view>
-    <view class="w2 mt-16 border-solid border-blue-600">{{ ts('alert.done', 'Done') }}</view>
+    <view class="wf mt-[50px] border-solid border-cyan-600 text-center">Theme: {{ app.theme }}
+    </view>
+    <view class="w2 mt-16 border-solid border-blue-600 text-center" @click="gotoHelpPage">{{ ts('alert.help', 'Help') }}</view>
     <view class="w3 mt-14 border-solid border-purple-500">{{ ts('alert.success', 'Success') }}</view>
 
-    <button class="w4 mt-16 border-solid border-purple-500 dark:border-cyan-500" @click="onLogin">
+    <button class="w4 mt-16 border-solid border-purple-500 dark:border-cyan-500 text-center" @click="onLogin">
       <uv-icon name="photo" size="30" color="#909399"></uv-icon>
       登录
     </button>
@@ -19,6 +20,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { onHide, onLoad, onShow } from '@dcloudio/uni-app'
+import { useRouter } from 'uni-mini-router'
 import CryptoJS from 'crypto-js'
 import { useUserStore } from '@/stores/user'
 import { useAppStore } from '@/stores'
@@ -27,6 +29,7 @@ import { getLanguage, setLanguage, ts } from '@/utils/i18n'
 // 状态管理
 const { userInfo } = useUserStore()
 const { app } = useAppStore()
+const router = useRouter()
 // 组件属性
 // 组件事件
 // 组件接口
@@ -59,6 +62,9 @@ const onLogin = () => {
   const encoded = AES.encrypt('hello', import.meta.env.VITE_ENC_KEY, opts)
   console.log('encrypted', encoded.toString())
   console.log('decrypted', AES.decrypt(encoded.toString(), import.meta.env.VITE_ENC_KEY, opts).toString(CryptoJS.enc.Utf8))
+}
+const gotoHelpPage = () => {
+  router.push('/pages/index/help')
 }
 // 生命周期
 onLoad(() => {

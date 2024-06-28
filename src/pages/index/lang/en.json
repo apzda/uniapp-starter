@@ -1,6 +1,7 @@
 {
   "alert": {
     "fail": "Failure!",
-    "done": "Done!"
+    "done": "Done!",
+    "help": "Help"
   }
 }
