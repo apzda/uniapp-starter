@@ -13,7 +13,7 @@ const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 
 // setup language messages
-const messages : Record<string, any> = {}
+const messages: Record<string, any> = {}
 const languages = import.meta.glob('./lang/*.ts', { import: 'default', eager: true })
 for (const path in languages) {
   const lang = getLocale(path)
@@ -41,7 +41,7 @@ export function createApp() {
     fallbackLocale: 'en',
     silentTranslationWarn: true,
     silentFallbackWarn: true,
-    missingWarn:false
+    missingWarn: false
   })
   app.use(i18n)
   // console.debug('i18n hello => ', i18n.global.t('hello'))
