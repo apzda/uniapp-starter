@@ -20,14 +20,14 @@ const gateways = (setting.gtw || {}) as { [k: string]: GtwOptions }
 // 默认错误处理器
 const emptyHandler = (event: ErrorEvent) => {
   event.suppress = true
-  showMessage(event, event.options, false)
+  showMessage(event, event.options || {}, false)
 }
 
 // 请求代理类
 class RequestProxy implements IAxios {
   private readonly options: RequestOptions
   private readonly debounceMap: Set<string>
-  private readonly apiBase: string
+  public readonly apiBase: string
 
   constructor(options: GtwOptions) {
     this.options = options
@@ -55,7 +55,9 @@ class RequestProxy implements IAxios {
     options.header = options.header || {}
 
     delete options.header['Content-Type']
+    delete options.header['content-type']
     delete options.header['Accept']
+    delete options.header['accept']
 
     options.header['content-type'] = 'application/encrypted+json'
     options.header['accept'] = 'application/encrypted+json'
@@ -100,7 +102,7 @@ class RequestProxy implements IAxios {
           delete err.options.success
           delete err.options.fail
         }
-        console.debug('request.failure: ', err)
+        console.debug('请求失败: ', api, err)
         const errCode = ('onErr' + Math.abs(err.errCode)) as ErrHandlerName
         const errHandler = handler[errCode] || emptyHandler
         const handled = errHandler(err)
@@ -114,7 +116,7 @@ class RequestProxy implements IAxios {
     })
   }
 
-  private doRequest<T>(api: string, method: 'GET' | 'POST', options?: RequestOptions): Promise<T> {
+  doRequest<T>(api: string, method: 'GET' | 'POST', options?: RequestOptions): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       if (!api || !api.trim()) {
         reject({
@@ -129,9 +131,10 @@ class RequestProxy implements IAxios {
         options[cfg] = gtwCfg[cfg]
       }
 
-      const url = this.apiBase + api
+      const url = api.startsWith(this.apiBase) ? api : (this.apiBase + (api.startsWith('/') ? api.substring(1) : api))
       options.url = url
       options.method = method
+
       if (setting.debounce !== false) {
         if (this.debounceMap.has(url)) {
           const err = {

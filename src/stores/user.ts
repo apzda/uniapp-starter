@@ -1,9 +1,12 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-
+import type { RoutePathLocation } from 'uni-mini-router'
 import setting from '@/config'
 
-import { persist, toArray } from '@/utils'
+import { buildFromParam, getCurrentPage, isObject, persist, toArray } from '@/utils'
+import { generateUUID } from '@/utils/crypto'
+import handlers from '@/config/handlers'
+import { useAxios } from '@/utils/axios'
 
 export interface Job {
   id: string
@@ -82,6 +85,7 @@ export interface UserInfo {
 }
 
 const ROLE_PREFIX = setting.rolePrefix || 'ROLE_'
+const storagePrefix = setting.storagePrefix || ''
 const patterns = new Map<string, RegExp>()
 
 const getPattern = (authority: string): RegExp | undefined => {
@@ -108,10 +112,62 @@ const getPattern = (authority: string): RegExp | undefined => {
   return patterns.get(authority)
 }
 
-export const useUserStore = defineStore('userInfo', () => {
-  const userInfo = ref<UserInfo>({
-    uuid: '12345-x'
-  })
+export const useUserStore = defineStore(storagePrefix + '::userStore', () => {
+  const userInfo = ref<UserInfo>({})
+  const uuid = ref<string>(generateUUID())
+  const logout = () => {
+    if (userInfo.value && userInfo.value.login) {
+
+      if (setting.logoutApi) {
+        const axios = useAxios()
+        axios.post(setting.logoutApi).then(() => {
+          uni.showToast({
+            title: '已退出',
+            icon: 'none'
+          }).then()
+        }).finally(() => {
+          userInfo.value = {}
+          uni.redirectTo({
+            url: '/'
+          }).then()
+        })
+      } else {
+        userInfo.value = {}
+        uni.redirectTo({
+          url: '/'
+        }).then()
+      }
+    }
+  }
+  const login = (data: UserInfo, redirect?: string) => {
+    if (refresh(data)) {
+      uni.redirectTo({
+        url: redirect || '/'
+      }).then()
+    }
+  }
+
+  const refresh = (data: UserInfo) => {
+    data.login = true
+    userInfo.value = data
+    if (!data.uid || data.uid == 0) {
+      if (typeof handlers['onErr808'] === 'function') {
+        handlers['onErr808']({ errCode: 808 })
+      } else {
+        uni.showToast({
+          title: '请绑定平台账户',
+          icon: 'none'
+        }).finally(() => {
+        })
+      }
+      return false
+    }
+    return true
+  }
+
+  const isLogin = (): boolean => {
+    return !!userInfo.value?.login
+  }
 
   const isSuperAdmin = (): boolean => {
     return hasRole('sa')
@@ -175,16 +231,54 @@ export const useUserStore = defineStore('userInfo', () => {
     return authority != undefined
   }
 
+  const checkLogin = (from?: string | RoutePathLocation, to?: string) => {
+    if (isLogin()) {
+      if (to) {
+        //@ts-ignore
+        uni.navigateTo({
+          url: buildFromParam(to)
+        }).then()
+      }
+    } else {
+      const query = {
+        from: '/'
+      }
+      if (from) {
+        if (typeof from === 'string') {
+          query.from = buildFromParam(from)
+        } else if (isObject(from)) {
+          query.from = buildFromParam(from.path || '/', from.query)
+        }
+      }
+      const url = buildFromParam(setting.loginPage, query)
+      // 使用redirectTo会报错????
+      uni.navigateTo({ url }).then()
+    }
+  }
+
+  const assertUserIsAuthenticated = checkLogin
+
   return {
     userInfo,
-    isSuperAdmin, hasPermission, hasAuthority, hasRole
+    uuid,
+    isSuperAdmin,
+    hasPermission,
+    hasAuthority,
+    hasRole,
+    isLogin,
+    login,
+    checkLogin,
+    assertUserIsAuthenticated,
+    refresh,
+    logout
   }
 
 }, {
   persist
 })
 
-
-
-
+export const assertUserIsAuthenticated = () => {
+  const cp = getCurrentPage()
+  useUserStore().assertUserIsAuthenticated(cp?.route || setting.landingPage || '/')
+}
 

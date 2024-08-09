@@ -1,3 +1,5 @@
+import type { Router } from 'uni-mini-router'
+
 export interface Response {
   data: any;
   statusCode: number;
@@ -8,15 +10,16 @@ export interface Response {
 export interface RequestOptions {
   [key: string]: any
 
-  url?: string;
-  method?: 'GET' | 'POST';
-  header?: { [key: string]: string };
-  data?: any,
-  timeout?: number;
-  dataType?: string;
-  responseType?: string;
-  withCredentials?: boolean;
-  showErrMsg?: false;
+  url?: string
+  method?: 'GET' | 'POST'
+  header?: { [key: string]: string }
+  data?: any
+  timeout?: number
+  dataType?: string
+  responseType?: string
+  withCredentials?: boolean
+  showErrMsg?: false
+  login?: boolean
 }
 
 export interface CommonResponse<T = any> {
@@ -30,10 +33,11 @@ export interface CommonResponse<T = any> {
 // 网络请求错误事件
 export interface ErrorEvent extends CommonResponse {
   suppress?: boolean
-  options: InternalRequestOptions
-  axios: IAxios
-  resolve: ((data: CommonResponse) => any)
-  reject: ((err: ErrorEvent) => any)
+  options?: InternalRequestOptions
+  axios?: IAxios
+  router?: Router
+  resolve?: ((data: CommonResponse) => any)
+  reject?: ((err: ErrorEvent) => any)
 }
 
 export type InternalRequestOptions = RequestOptions & {

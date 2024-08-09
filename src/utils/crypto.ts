@@ -26,3 +26,14 @@ export function encrypt(text: string): string {
 export function encryptObj(obj: any): string {
   return encrypt(JSON.stringify(obj))
 }
+
+export function generateUUID() {
+  const randomBytes = CryptoJS.lib.WordArray.random(16)
+  return [
+    randomBytes.words[0].toString(16),
+    (randomBytes.words[1] & 0xff00).toString(16).substring(2),
+    (randomBytes.words[1] & 0x00ff).toString(16).substring(2),
+    randomBytes.words[2].toString(16),
+    randomBytes.words[3].toString(16)
+  ].join('-')
+}

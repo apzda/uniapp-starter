@@ -13,6 +13,7 @@ const gp = /^\/.+\/(.+)\.json$/
 export const SUPPORT_LOCALES: string[] = Object.keys(settings.languages || {})
 console.debug('Supported Languages:', SUPPORT_LOCALES)
 
+//@ts-ignore
 type _I18n = I18n<{}, {}, {}, string, false>
 
 const instance: {
