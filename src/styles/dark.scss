@@ -1,3 +1,7 @@
 @media (prefers-color-scheme: dark) {
 
 }
+
+.dark {
+  @apply bg-slate-900 text-white;
+}

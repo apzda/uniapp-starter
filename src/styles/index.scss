@@ -1,4 +1,6 @@
-
+page {
+  @apply bg-white text-black;
+}
 
 /* dark theme */
 @import './dark.scss';

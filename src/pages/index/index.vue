@@ -1,30 +1,38 @@
 <template>
-  <view class="content dark:from-red-500 from-blue-500 to-95% bg-gradient-to-b">
-    <image class="logo" :src="'/static/logo.png'" />
-    <view class="text-area">
-      <text class="title text-red-300">{{ ts(title, 'Hello') }}</text>
-    </view>
-    <view class="w1 border-solid border-red-500">1</view>
-    <view class="wf mt-[50px] border-solid border-cyan-600 text-center">Theme: {{ app.theme }}
-    </view>
-    <view class="w2 mt-16 border-solid border-blue-600 text-center" @click="gotoHelpPage">{{ ts('alert.help', 'Help') }}</view>
-    <view class="w3 mt-14 border-solid border-purple-500">{{ ts('alert.success', 'Success') }}</view>
+  <app-page>
+    <view class="content from-blue-500 dark:from-red-500 to-95% bg-gradient-to-b">
+      <image class="logo" :src="'/static/logo.png'" />
+      <view class="text-area">
+        <text class="title text-red-300">{{ ts(title, 'Hello') }}</text>
+      </view>
+      <view class="w1 border-solid border-red-500">1</view>
+      <view class="wf mt-[50px] border-solid border-cyan-600 text-center"
+            @click="changeTheme">Theme: {{ app.theme }}
+      </view>
+      <view class="w2 mt-16 border-solid border-blue-600 text-center" @click="gotoHelpPage">
+        {{ ts('alert.help', 'Help') }}
+      </view>
 
-    <button class="w4 mt-16 border-solid border-purple-500 dark:border-cyan-500 text-center" @click="onLogin">
-      <uv-icon name="photo" size="30" color="#909399"></uv-icon>
-      登录
-    </button>
-  </view>
+      <view class="w3 mt-14 border-solid wx:border-purple-500 -wx:border-red-600">
+        {{ ts('alert.success', 'Success') }}
+      </view>
+
+      <button class="w4 mt-16 border-solid border-purple-500 dark:border-cyan-500 text-center" @click="onLogin">
+        <view class="i-mdi-home text-3xl text-red-600"></view>
+        登录
+      </button>
+    </view>
+  </app-page>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
 import { onHide, onLoad, onShow } from '@dcloudio/uni-app'
 import { useRouter } from 'uni-mini-router'
 import CryptoJS from 'crypto-js'
 import { useUserStore } from '@/stores/user'
 import { useAppStore } from '@/stores'
 import { getLanguage, setLanguage, ts } from '@/utils/i18n'
+import AppPage from '@/components/AppPage.vue'
 
 // 状态管理
 const { userInfo } = useUserStore()
@@ -38,6 +46,13 @@ const router = useRouter()
 const title = ref('hello')
 // 内部函数
 // 事件处理器
+const changeTheme = () => {
+  if (app.theme === 'dark') {
+    app.theme = 'light'
+  } else {
+    app.theme = 'dark'
+  }
+}
 const onLogin = () => {
   uni.login({
     success(result) {
@@ -102,10 +117,6 @@ onHide(() => {
   border-width: 1px;
 }
 
-.b-red {
-  border-color: red;
-}
-
 .content {
   display: flex;
   flex-direction: column;
@@ -114,8 +125,8 @@ onHide(() => {
 }
 
 .logo {
-  height: 200px;
-  width: 200px;
+  height: 12.5rem;
+  width: 12.5rem;
   margin: 200px auto 50px;
 }
 

@@ -15,7 +15,12 @@ export default defineConfig({
   plugins: [
     uni(),
     uvwt({
-      rem2rpx: true,
+      rem2rpx: {
+        rootValue: 16,
+        unitPrecision: 6,
+        propList: ['*'],
+        transformUnit: 'rpx'
+      },
       disabled: WeappTailwindcssDisabled,
       injectAdditionalCssVarScope: true
     }),

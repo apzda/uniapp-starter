@@ -8,3 +8,5 @@ declare module '@vue/runtime-core' {
 
   }
 }
+
+declare module 'postcss-pxtransform';

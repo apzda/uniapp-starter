@@ -26,6 +26,9 @@
     "navigationBarBackgroundColor": "@navBgColor",
     "backgroundColor": "@backgroundColor",
     "backgroundColorBottom": "@backgroundColorBottom",
-    "backgroundColorTop": "@backgroundColorTop"
+    "backgroundColorTop": "@backgroundColorTop",
+    // #ifdef H5
+    "navigationStyle": "custom"
+    // #endif
   }
 }
