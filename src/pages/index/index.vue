@@ -1,5 +1,5 @@
 <template>
-  <app-page>
+  <theme-page>
     <view class="content from-blue-500 dark:from-red-500 to-95% bg-gradient-to-b">
       <image class="logo" :src="'/static/logo.png'" />
       <view class="text-area">
@@ -7,7 +7,7 @@
       </view>
       <view class="w1 border-solid border-red-500">1</view>
       <view class="wf mt-[50px] border-solid border-cyan-600 text-center"
-            @click="changeTheme">Theme: {{ app.theme }}
+            @click="changeTheme">Theme: {{ theme.name }}
       </view>
       <view class="w2 mt-16 border-solid border-blue-600 text-center" @click="gotoHelpPage">
         {{ ts('alert.help', 'Help') }}
@@ -17,12 +17,12 @@
         {{ ts('alert.success', 'Success') }}
       </view>
 
-      <button class="w4 mt-16 border-solid border-purple-500 dark:border-cyan-500 text-center" @click="onLogin">
+      <button class="w4 mt-16 border-solid border-purple-500 bg-cyan-500 dark:bg-gray-800 text-center" @click="onLogin">
         <view class="i-mdi-home text-3xl text-red-600"></view>
         登录
       </button>
     </view>
-  </app-page>
+  </theme-page>
 </template>
 
 <script setup lang="ts">
@@ -32,11 +32,11 @@ import CryptoJS from 'crypto-js'
 import { useUserStore } from '@/stores/user'
 import { useAppStore } from '@/stores'
 import { getLanguage, setLanguage, ts } from '@/utils/i18n'
-import AppPage from '@/components/AppPage.vue'
+import ThemePage from '@/components/ThemePage.vue'
 
 // 状态管理
 const { userInfo } = useUserStore()
-const { app } = useAppStore()
+const { theme } = useAppStore()
 const router = useRouter()
 // 组件属性
 // 组件事件
@@ -47,10 +47,10 @@ const title = ref('hello')
 // 内部函数
 // 事件处理器
 const changeTheme = () => {
-  if (app.theme === 'dark') {
-    app.theme = 'light'
+  if (theme.name === 'dark') {
+    theme.name = 'light'
   } else {
-    app.theme = 'dark'
+    theme.name = 'dark'
   }
 }
 const onLogin = () => {

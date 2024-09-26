@@ -1,5 +1,5 @@
 <template>
-  <ConfigProvider :theme="app.theme">
+  <ConfigProvider :theme="theme.name">
     <slot />
   </ConfigProvider>
 </template>
@@ -7,6 +7,5 @@
 import ConfigProvider from './ConfigProvider.vue'
 import { useAppStore } from '@/stores'
 
-const { app, setupTheme } = useAppStore()
-setupTheme()
+const { theme } = useAppStore()
 </script>

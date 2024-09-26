@@ -1,11 +1,11 @@
 <template>
-  <app-page>
+  <theme-page>
     <view>
       {{ ts('alert.help', 'Help!') }}
     </view>
-  </app-page>
+  </theme-page>
 </template>
 <script setup lang="ts">
 import { ts } from '@/utils/i18n'
-import AppPage from '@/components/AppPage.vue'
+import ThemePage from '@/components/ThemePage.vue'
 </script>

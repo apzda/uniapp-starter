@@ -3,7 +3,7 @@ import { onHide, onLaunch, onShow, onThemeChange } from '@dcloudio/uni-app'
 import { useAppStore } from '@/stores'
 
 // hooks
-const { app } = useAppStore()
+const { theme } = useAppStore()
 
 // lifecycles
 onLaunch(() => {
@@ -15,7 +15,7 @@ onLaunch(() => {
 onShow(() => {
   uni.getSystemInfo({
     success(result) {
-      console.debug('App Show', result)
+      console.debug('OS theme:', result.osTheme, ' ,Host theme:', result.hostTheme, ', App theme:', result.theme)
     }
   })
 })
@@ -27,7 +27,7 @@ onHide(() => {
 onThemeChange(() => {
   uni.getSystemInfo({
     success(result) {
-      app.theme = result.theme || 'dark'
+      theme.name = result.theme || 'dark'
     }
   })
 })

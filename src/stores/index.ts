@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 import setting from '@/config'
 import { persist } from '@/utils'
 import { reactive } from 'vue'
-import theme from '@/theme.json'
 
 const storagePrefix = setting.storagePrefix || ''
 
@@ -13,35 +12,19 @@ export const useAppStore = defineStore(
     const sysInfo = uni.getSystemInfoSync()
 
     const app = reactive<Record<string, any>>({
-      language: uni.getLocale(),
-      theme: sysInfo.theme || 'light'
+      language: uni.getLocale()
     })
-    const themeCfg = theme as Record<string, Record<string, string>>
+
+    const theme = reactive<Record<string, any>>({
+      name: sysInfo.theme || sysInfo.hostTheme || sysInfo.osTheme || 'light'
+    })
 
     const recCode = ref('')
 
     const getSysInfo = () => sysInfo
 
-    const setupTheme = (theme?: string) => {
-      theme = (theme || app.theme) as string
-      uni.setBackgroundColor({
-        backgroundColor: themeCfg[theme]?.backgroundColor,
-        backgroundColorTop: themeCfg[theme]?.backgroundColorTop,
-        backgroundColorBottom: themeCfg[theme]?.backgroundColorBottom
-      })
-      uni.setNavigationBarColor({
-        backgroundColor: themeCfg[theme]?.navBgColor,
-        frontColor: theme == 'dark' ? '#ffffff' : '#000000'
-      })
-    }
-    // #ifndef H5
-    watchEffect(() => {
-      setupTheme(app.theme)
-    })
-    // #endif
-
     return {
-      app, recCode, getSysInfo, setupTheme
+      app, theme, recCode, getSysInfo
     }
   },
   {
