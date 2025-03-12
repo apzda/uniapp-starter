@@ -6,7 +6,7 @@ import { isMp } from './platform'
 
 export default <Config>{
   content: ['./index.html', './src/**/*.{ts,vue}'],
-  darkMode: ['variant', ':is(.dark &)'],
+  darkMode: 'media',
   theme: {
     extend: {}
   },

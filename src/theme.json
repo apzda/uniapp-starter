@@ -1,16 +1,18 @@
 {
   "light": {
-    "navBgColor": "#F8F8F8",
-    "navTxtStyle": "black",
-    "backgroundColor": "#417eb7",
-    "backgroundColorBottom": "#ffffff",
-    "backgroundColorTop": "#417eb7"
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FFFFFF",
+    "backgroundColorBottom": "#FFFFFF",
+    "backgroundColorTop": "#FFFFFF",
+    "backgroundTextStyle": "dark"
   },
   "dark": {
-    "navBgColor": "#292929",
-    "navTxtStyle": "white",
-    "backgroundColor": "#F8F8F8",
-    "backgroundColorBottom": "#ffffff",
-    "backgroundColorTop": "#F8F8F8"
+    "navigationBarBackgroundColor": "#111827",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#1f2937",
+    "backgroundColorBottom": "#1f2937",
+    "backgroundColorTop": "#1f2937",
+    "backgroundTextStyle": "light"
   }
 }

@@ -21,12 +21,13 @@
     }
   ],
   "globalStyle": {
-    "navigationBarTextStyle": "@navTxtStyle",
+    "navigationBarTextStyle": "@navigationBarTextStyle",
     "navigationBarTitleText": "小程序脚手架",
-    "navigationBarBackgroundColor": "@navBgColor",
+    "navigationBarBackgroundColor": "@navigationBarBackgroundColor",
     "backgroundColor": "@backgroundColor",
     "backgroundColorBottom": "@backgroundColorBottom",
     "backgroundColorTop": "@backgroundColorTop",
+    "backgroundTextStyle": "@backgroundTextStyle",
     // #ifdef H5
     "navigationStyle": "custom"
     // #endif

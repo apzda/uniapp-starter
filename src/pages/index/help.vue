@@ -1,6 +1,6 @@
 <template>
   <theme-page>
-    <view>
+    <view class="h-full">
       {{ ts('alert.help', 'Help!') }}
     </view>
   </theme-page>

@@ -1,4 +1,4 @@
-import { WeappTailwindcssDisabled } from './platform'
+import { isMp } from './platform'
 import tailwindcss from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
 import postcssPxTransform from 'postcss-pxtransform'
@@ -7,12 +7,12 @@ import cssMacro from 'weapp-tailwindcss/css-macro/postcss'
 const plugins: any[] = [tailwindcss(), autoprefixer()]
 
 // 下方为 px 转 rpx 功能, 根据你自己的需求打开它
-if (!WeappTailwindcssDisabled) {
+if (isMp) {
   plugins.push(postcssPxTransform({
     platform: 'weapp',
     designWidth: 750,
     unitPrecision: 6,
-    mediaQuery: true,
+    mediaQuery: false,
     replace: true,
     deviceRatio: {
       640: 2.34 / 2,

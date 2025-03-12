@@ -1,11 +1,11 @@
 <template>
-  <ConfigProvider :theme="theme.name">
+  <view class="antialiased min-h-screen transition-colors duration-500 dark:text-white dark:bg-gray-800">
     <slot />
-  </ConfigProvider>
+  </view>
 </template>
-<script lang="ts" setup>
-import ConfigProvider from './ConfigProvider.vue'
-import { useAppStore } from '@/stores'
 
-const { theme } = useAppStore()
-</script>
+<style lang="scss" scoped>
+.min-h-screen {
+  min-height: 100vh;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <theme-page>
-    <view class="content from-blue-500 dark:from-red-500 to-95% bg-gradient-to-b">
+    <view class="content from-blue-500 dark:from-red-500 to-100% bg-gradient-to-b">
       <image class="logo" :src="'/static/logo.png'" />
       <view class="text-area">
         <text class="title text-red-300">{{ ts(title, 'Hello') }}</text>
@@ -17,8 +17,10 @@
         {{ ts('alert.success', 'Success') }}
       </view>
 
-      <button class="w4 mt-16 border-solid border-purple-500 bg-cyan-500 dark:bg-gray-800 text-center" @click="onLogin">
-        <view class="i-mdi-home text-3xl text-red-600"></view>
+      <button
+        class="w4 mt-16 border-solid border-cyan-600 bg-cyan-500 dark:border-gray-900 dark:bg-gray-800 text-center"
+        @click="onLogin">
+        <view class="i-mdi-home text-3xl text-red-600" />
         登录
       </button>
     </view>
@@ -103,7 +105,7 @@ onHide(() => {
 }
 
 .w1 {
-  width: 750px;
+  width: 100%;
   border-width: 1px;
 }
 
