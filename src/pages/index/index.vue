@@ -13,7 +13,7 @@
         {{ ts('alert.help', 'Help') }}
       </view>
 
-      <view class="w3 mt-14 border-solid wx:border-purple-500 -wx:border-red-600">
+      <view class="w3 mt-14 border-solid border-purple-500 -wx:border-red-600">
         {{ ts('alert.success', 'Success') }}
       </view>
 
@@ -23,10 +23,6 @@
         <view class="i-mdi-home text-3xl text-red-600" />
         登录
       </button>
-
-      <view>
-        <uv-button type="primary">你好</uv-button>
-      </view>
     </view>
   </theme-page>
 </template>
