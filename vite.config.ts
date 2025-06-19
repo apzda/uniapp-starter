@@ -15,8 +15,12 @@ export default defineConfig({
   plugins: [
     uni(),
     uvwt({
+      wxsMatcher() {
+        return false
+      },
+      inlineWxs: true,
       rem2rpx: {
-        rootValue: 16,
+        rootValue: 32,
         unitPrecision: 6,
         propList: ['*'],
         transformUnit: 'rpx'

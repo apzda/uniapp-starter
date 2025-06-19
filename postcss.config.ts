@@ -4,13 +4,13 @@ import autoprefixer from 'autoprefixer'
 import postcssPxTransform from 'postcss-pxtransform'
 import cssMacro from 'weapp-tailwindcss/css-macro/postcss'
 
-const plugins: any[] = [tailwindcss(), autoprefixer()]
+const plugins: any[] = [autoprefixer(), tailwindcss()]
 
 // 下方为 px 转 rpx 功能, 根据你自己的需求打开它
 if (isMp) {
   plugins.push(postcssPxTransform({
     platform: 'weapp',
-    designWidth: 750,
+    designWidth: 375,
     unitPrecision: 6,
     mediaQuery: false,
     replace: true,

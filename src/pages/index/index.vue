@@ -23,6 +23,10 @@
         <view class="i-mdi-home text-3xl text-red-600" />
         登录
       </button>
+
+      <view>
+        <uv-button type="primary">你好</uv-button>
+      </view>
     </view>
   </theme-page>
 </template>

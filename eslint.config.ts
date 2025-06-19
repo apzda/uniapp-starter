@@ -41,7 +41,7 @@ const eslintConfigs: TSESLint.FlatConfig.Config[] = defineConfigWithVueTs(
       'vue/first-attribute-linebreak': 0,
       'vue/require-default-prop': 0,
       '@typescript-eslint/ban-ts-comment': 0,
-      '@typescript-eslint/no-explicit-any': 1
+      '@typescript-eslint/no-explicit-any': 0
     }
   }
 )
