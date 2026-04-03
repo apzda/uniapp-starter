@@ -1,7 +1,6 @@
 import { createSSRApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-import uvUI from '@climblee/uv-ui'
 
 import router from './router'
 import { getLanguage, getLocale, setupI18n } from '@/utils/i18n'
@@ -26,7 +25,6 @@ export function createApp() {
   const app = createSSRApp(App)
   app.use(pinia)
   app.use(router)
-  app.use(uvUI)
 
   // install plugins
   const plugins = import.meta.glob('./**/plugins/*.ts', { import: 'default', eager: true })

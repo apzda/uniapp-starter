@@ -81,7 +81,7 @@ const onLogin = () => {
   console.log('decrypted', AES.decrypt(encoded.toString(), import.meta.env.VITE_ENC_KEY, opts).toString(CryptoJS.enc.Utf8))
 }
 const gotoHelpPage = () => {
-  router.push('/pages/index/help')
+  router.push('/pages/help')
 }
 // 生命周期
 onLoad(() => {

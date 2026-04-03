@@ -3,7 +3,7 @@
 declare module '*.vue' {
 }
 
-declare module '@climblee/uv-ui';
+declare module 'wot-design-uni';
 
 declare module 'postcss-pxtransform';
 

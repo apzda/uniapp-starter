@@ -2,7 +2,7 @@
   "easycom": {
     "autoscan": true,
     "custom": {
-      "^uv-(.*)": "@climblee/uv-ui/components/uv-$1/uv-$1.vue"
+      "^wd-(.*)": "wot-design-uni/components/wd-$1/wd-$1.vue"
     }
   },
   "pages": [
@@ -14,7 +14,7 @@
       }
     },
     {
-      "path": "pages/index/help",
+      "path": "pages/help",
       "style": {
         "navigationBarTitleText": "帮助"
       }
