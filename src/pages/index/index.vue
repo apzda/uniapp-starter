@@ -5,24 +5,24 @@
       <view class="text-area">
         <text class="title text-red-300">{{ ts(title, 'Hello') }}</text>
       </view>
-      <view class="w1 border-solid border-red-500">1</view>
+      <view class="w1 border-solid border-red-500">width: 100%</view>
       <view class="wf mt-[50px] border-solid border-cyan-600 text-center"
-            @click="changeTheme">Theme: {{ theme.name }}
+            @click="changeTheme">Theme: {{ theme.name }} width: 100%
       </view>
       <view class="w2 mt-16 border-solid border-blue-600 text-center" @click="gotoHelpPage">
-        {{ ts('alert.help', 'Help') }}
+        {{ ts('alert.help', 'Help') }} width: 150px
       </view>
 
       <view class="w3 mt-14 border-solid border-purple-500 -wx:border-red-600">
-        {{ ts('alert.success', 'Success') }}
+        {{ ts('alert.success', 'Success') }} width: 375px
       </view>
 
-      <button
-        class="w4 mt-16 border-solid border-cyan-600 bg-cyan-500 dark:border-gray-900 dark:bg-gray-800 text-center"
+      <view
+        class="w4 mt-16 border-solid border-cyan-600 bg-cyan-500 dark:border-gray-900 dark:bg-red-800 text-center"
         @click="onLogin">
         <view class="i-mdi-home text-3xl text-red-600" />
         登录
-      </button>
+      </view>
     </view>
   </theme-page>
 </template>

@@ -1,5 +1,5 @@
 onlyBuiltDependencies:
   - core-js
+  - core-js-pure
   - esbuild
   - vue-demi
-  - weapp-tailwindcss
